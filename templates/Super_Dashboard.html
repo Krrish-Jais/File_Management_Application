@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Tracking System</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+      :root {
+        --main-color: #2d3657;;
+        --color-dark: #ffffff;
+        --text-gray: #8390a2;
+        --body-bg: #1a2035;
+        --card-bg: #282e4a;
+        --highlight-color: #903c9c;
+        --highlight-bg: rgba(75, 192, 192, 0.2);
+      }
+
+      * {
+        font-family: "Roboto", sans-serif;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        list-style-type: none;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--body-bg);
+        color: var(--color-dark);
+      }
+
+      .main-content {
+        padding: 2rem;
+        margin: 0 auto;
+        max-width: 1200px;
+      }
+
+      header {
+        margin-bottom: 2rem;
+        padding: 1rem 0;
+        text-align: center;
+        background-color: var(--card-bg);
+        border-radius: 8px;
+      }
+
+      main {
+        background-color: var(--body-bg);
+        min-height: 90vh;
+        padding: 1rem;
+      }
+
+      .dash-title {
+        color: var(--color-dark);
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .dash-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 3rem;
+        margin-bottom: 2rem;
+      }
+
+      .card-single {
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        padding: 2rem;
+      }
+
+      .card-single h3 {
+        color: #ffffff; /* Text color set to white */
+        text-align: center;
+        background-color: var(--highlight-bg);
+        padding: 0.5rem;
+        border-radius: 4px;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem; 
+      }
+
+      .card-body {
+        padding: 1rem;
+      }
+
+      .doc-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .doc-row h4 {
+        color: var(--color-dark);
+        font-size: 1.2rem;
+      }
+
+      .button-container {
+        display: flex;
+        gap: 0.7rem;
+        margin-left: 50px;
+      }
+
+      .button-container button {
+        background-color: var(--highlight-color);
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 1rem;
+      }
+
+      .button-container button:hover {
+        background-color: var(--main-color);
+      }
+
+      .button-container a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      .recent {
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+      }
+
+      .activity-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 1.5rem;
+      }
+
+      .activity-card {
+        background-color: var(--card-bg);
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .activity-card h3 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .chart-container {
+        height: 300px;
+        width: 100%;
+      }
+
+      @media only screen and (max-width: 1200px) {
+        .dash-cards {
+          grid-template-columns: 1fr;
+          grid-row-gap: 2rem;
+        }
+
+        .activity-grid {
+          grid-template-columns: 1fr;
+          grid-row-gap: 2rem;
+        }
+      }
+
+      @media only screen and (max-width: 768px) {
+        .main-content {
+          padding: 1rem;
+        }
+
+        .dash-title {
+          font-size: 1.5rem;
+        }
+
+        .card-single h3 {
+          font-size: 1.2rem;
+        }
+
+        .doc-row h4 {
+          font-size: 0.9rem;
+        }
+
+        .button-container button {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.7rem;
+        }
+
+        .activity-card h3 {
+          font-size: 1.2rem;
+        }
+
+        .chart-container {
+          height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!--main-content-->
+    <div class="main-content">
+      <!--header-->
+      <header>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+          <h1 style="margin: 0;">File Tracking System</h1>
+          <button style="background-color: var(--highlight-color); color: #ffffff; border: none; border-radius: 4px; padding: 0.5rem 1rem; cursor: pointer; transition: background-color 0.3s ease; font-size: 1rem;">
+            <a href="http://127.0.0.1:8000/login/" style="color: #ffffff; text-decoration: none;">Logout</a>
+          </button>
+        </div>
+      </header>
+      
+
+      <!--main-->
+      <main>
+        <h2 class="dash-title">Overview</h2>
+
+        <!--cards-->
+        <div class="dash-cards">
+          <div class="card-single">
+            <h3>Sales</h3>
+            <div class="card-body">
+              {% for Depart in D1 %}
+              <div class="doc-row">
+                <h4>{{ Depart.document_id }} {{ Depart.document_type }}</h4>
+                <div class="button-container">
+                  <button>
+                    <a href="http://127.0.0.1:8000/document/{{OID}}/{{ Depart.document_id }}" target="_blank">Track</a>
+                  </button><br/>
+                  <button>
+                    <a href="{{ Depart.link }}" target="_blank">View</a>
+                  </button>
+                </div>
+              </div><br>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="card-single">
+            <h3>Finance</h3>
+            <div class="card-body">
+              {% for Depart in D2 %}
+              <div class="doc-row">
+                <h4>{{ Depart.document_id }} {{ Depart.document_type }}</h4>
+                <div class="button-container">
+                  <button>
+                    <a href="http://127.0.0.1:8000/document/{{OID}}/{{ Depart.document_id }}" target="_blank">Track</a>
+                  </button><br>
+                  <button>
+                    <a href="{{ Depart.link }}" target="_blank">View</a>
+                  </button>
+                </div>
+              </div><br>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="card-single">
+            <h3>Administration</h3>
+            <div class="card-body">
+              {% for Depart in D3 %}
+              <div class="doc-row">
+                <h4>{{ Depart.document_id }} {{ Depart.document_type }}</h4>
+                <div class="button-container">
+                  <button>
+                    <a href="http://127.0.0.1:8000/document/{{OID}}/{{ Depart.document_id }}" target="_blank">Track</a>
+                  </button><br>
+                  <button>
+                    <a href="{{ Depart.link }}" target="_blank">View</a>
+                  </button>
+                </div>
+              </div><br>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <section class="recent">
+          <h2 class="dash-title">Recent Activity</h2>
+          <div class="activity-grid">
+            <div class="activity-card">
+              <h3>File Status</h3>
+              <div class="chart-container">
+                <canvas id="myPieChart"></canvas>
+              </div>
+            </div>
+            <div class="activity-card">
+              <h3>Total Documents</h3>
+              <div class="chart-container">
+                <canvas id="barChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Pie Chart
+      const ctx = document.getElementById('myPieChart').getContext('2d');
+      const myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Approved', 'Pending', 'Rejected', 'Transit'],
+          datasets: [
+            {
+              data: {{Data}},
+              backgroundColor: [
+                'rgba(75, 192, 192, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
+                'rgba(215, 105, 90, 0.8)',
+                'rgba(255, 99, 132, 0.8)',
+              ],
+              borderColor: '#fff',
+              borderWidth: 2,
+              hoverOffset: 6,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: '#fff',
+                font: {
+                  size: 14,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // Bar Chart
+      const barCtx = document.getElementById('barChart').getContext('2d');
+      new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Sales', 'Finance', 'HR'],
+          datasets: [
+            {
+              label: 'Total Documents In Each Department',
+              data: {{Data}},
+              backgroundColor: 'rgba(255, 123, 123, 0.8)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              labels: {
+                color: '#fff',
+                font: {
+                  size: 14,
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#fff',
+              },
+            },
+            y: {
+              ticks: {
+                color: '#fff',
+              },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

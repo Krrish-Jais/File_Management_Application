@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - File Tracking System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a2035;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #2c3e50;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #ecf0f1;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        label {
+            font-size: 18px;
+            color: #ecf0f1;
+            text-align: left;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #34495e;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+
+        input::placeholder {
+            color: #95a5a6;
+        }
+
+        button {
+            background-color:#282e4a ;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color:#2d3657;
+        }
+
+        a {
+            color: #1abc9c;
+            text-decoration: none;
+            margin-top: 15px;
+            display: inline-block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .info {
+            color: #95a5a6;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the File Tracking System</h1>
+        <h2>Please log in to manage and track your files securely.</h2>
+        <form action="#" method="Post">
+            {% csrf_token %}
+            {% load static %}
+            <label for="Employee"><b>Enter ID:</b></label>
+            <input type="text" placeholder="Enter ID" name="ID" required>
+            <label for="password"><b>Password:</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+            {% for msg in messages %}
+            <p style="color: red">{{msg}}</p>
+            {% endfor %}
+            <button type="submit"><b>Login</b></button>
+        </form>
+      
+    </div>
+</body>
+</html>

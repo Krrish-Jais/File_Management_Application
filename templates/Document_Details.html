@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title> DOCUMENT DEATILS </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+        .step-wizard {
+           
+            height: 50vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .step-wizard-list {
+            background: #282e4a;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+            color: #ffffff;
+            list-style-type: none;
+            border-radius: 10px;
+            display: flex;
+            padding: 20px 10px;
+            position: relative;
+            z-index: 10;
+            flex-direction: column;
+            align-items: center;
+        }
+        .step-wizard-list h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .step-wizard-item-container {
+            display: flex;
+            width: 100%;
+        }
+        .step-wizard-item {
+            padding: 0 20px;
+            flex-basis: 0;
+            flex-grow: 1;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            min-width: 170px;
+            position: relative;
+        }
+        .step-wizard-item + .step-wizard-item:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 19px;
+            background: #903c9c;
+            width: 100%;
+            height: 2px;
+            transform: translateX(-50%);
+            z-index: -10;
+        }
+        .progress-count {
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 600;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            color: transparent;
+        }
+        .progress-count:after {
+            content: "";
+            height: 40px;
+            width: 40px;
+            background: #903c9c;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: -10;
+        }
+        .progress-count:before {
+            content: "";
+            height: 10px;
+            width: 20px;
+            border-left: 3px solid #fff;
+            border-bottom: 3px solid #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -60%) rotate(-45deg);
+            transform-origin: center center;
+        }
+        .progress-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .current-item .progress-count:before,
+        .current-item ~ .step-wizard-item .progress-count:before {
+            display: none;
+        }
+        .current-item ~ .step-wizard-item .progress-count:after {
+            height: 10px;
+            width: 10px;
+        }
+        .current-item ~ .step-wizard-item .progress-label {
+            opacity: 0.5;
+        }
+        .current-item .progress-count:after {
+            background: #fff;
+            border: 2px solid #903c9c;
+        }
+        .current-item .progress-count {
+            color: #903c9c;
+        }
+        .name-label {
+            position: absolute;
+            top: -25px;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        .button-container {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .button-container button {
+        background-color: #903c9c;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        font-size: 0.8rem;
+      }
+
+      .button-container button:hover {
+        background-color: var(--main-color);
+      }
+
+      .button-container a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+    </style>
+</head>
+<body>
+<section class="step-wizard">
+    <ul class="step-wizard-list">
+        <h2 style="color: #ffffff;">Document Progress</h2>
+        <div class="step-wizard-item-container">
+            {% for tr in Track %}
+            <li class="step-wizard-item" id="step-1">
+                <span class="progress-count">{{tr.transaction_no}}</span>
+                <span class="progress-label">{{tr.forwarded_by_id}}</span>
+                <span class="progress-label">{{ tr.forwarded_time }}</span>
+            </li>
+            <li class="step-wizard-item">
+                <span class="progress-count">{{tr.transaction_no}}</span>
+                <span class="progress-label">{{tr.forwarded_to_id}}</span>
+            </li>
+        {% endfor %}
+        </div>
+    </ul>
+</section>
+<section class="order-table">
+    <h2 style="color: #ffffff;">Document Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Document-ID</th>
+                <th>Generated By</th>
+                <th>Document Type</th>
+                <th>Generation Date and Time</th>
+                <th>Status</th>
+                <th>Department</th>
+                <th>Forward</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for doc in Details %}
+        <tr>
+            <td>{{ doc.document_id }}</td>
+            {% for emp in Employee %}
+            {% if emp.employee_id == doc.employee_id %}
+                <td>{{ emp.emp_name}} </td>
+            {% endif %}    
+            {% endfor %}
+            <td>{{ doc.document_type }}</td>
+            <td>{{ doc.document_time }}</td>
+            {% for st in Status %}
+            {% if st.status_id == doc.status %}
+                <td>{{ st.status_name}} </td>
+            {% endif %}    
+            {% endfor %}
+            {% for dept in Dept %}
+            {% if dept.depart_id == doc.depart_id %}
+                <td>{{ dept.depart_id}}-{{dept.depart_name}}</td>
+            {% endif %}    
+            {% endfor %}
+            
+            <td>
+                <div class="button-container">
+                <button onclick="toggleForwardSection('forward-section-{{ doc.document_id }}')">Forward</button>
+                </div>
+                <div id="forward-section-{{ doc.document_id }}" class="forward-section">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="document_id" value="{{ doc.document_id }}">
+                        <label for="officer-{{ doc.document_id }}">Forward to Officer:</label>
+                        <select name="officer" id="officer-{{ doc.document_id }}">
+                        {% for officer in Officer %}
+                            <option value="{{ officer.officers_id }}">{{officer.officers_id}} - {{ officer.officers_name }}</option>
+                        {% endfor %}
+                        </select>
+                        <label for="comment-{{ doc.document_id }}">Comment:</label>
+                        <textarea name="comment" id="comment-{{ doc.document_id }}"></textarea>
+                      
+                        <button type="submit">Submit</button>
+                        
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+<section class="order-table">
+    <h2 style="color: #ffffff;">Document Track</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>transaction No</th>
+                <th>Document ID</th>
+                <th>Document Name</th>
+                <th>Forwarded_by</th>
+                <th>Forwarded_to</th>
+                <th>Generation Date and Time</th>
+                <th>Status</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tc in Track %}
+        <tr>
+            <td>{{ tc.transaction_no}}</td>
+            <td>{{ tc.document_id }}</td>
+            <td>{{ tc.full_name }}</td>
+            {% for off in Officer %}
+            {% if off.officers_id == tc.forwarded_by_id %}
+                <td>{{ off.officers_name}} </td>
+            {% endif %}    
+            {% endfor %}
+            {% for off in Officer %}
+            {% if off.officers_id == tc.forwarded_to_id %}
+                <td>{{ off.officers_name}} </td>
+            {% endif %}
+            {% endfor %}
+            <td>{{ tc.forwarded_time }}</td>
+            {% for st in Status %}
+            {% if st.status_id == tc.status_id %}
+                <td>{{ st.status_name}} </td>
+            {% endif %}    
+            {% endfor %}
+            <td>{{tc.comment}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+<style>
+    /* Basic Reset */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: Arial, sans-serif;
+background: #1a2035;
+color: #333;
+}
+
+/* Header Styles */
+header {
+background-color: #ffffff;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1rem 2rem;
+}
+
+.logo {
+font-size: 1.5rem;
+font-weight: bold;
+}
+
+.nav-links {
+list-style: none;
+display: flex;
+gap: 1rem;
+}
+
+.nav-links li a {
+text-decoration: none;
+color: #333;
+}
+
+.nav-icons a {
+margin-left: 1rem;
+text-decoration: none;
+color: #333;
+}
+
+/* Main Content Styles */
+main {
+padding: 2rem;
+}
+
+.order-tracking, .order-table {
+background-color: #282e4a;
+padding: 2rem;
+border-radius: 8px;
+margin-bottom: 2rem;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-tracking h2, .order-table h2 {
+margin-bottom: 1rem;
+}
+
+.progress-container {
+width: 100%;
+margin: 1rem 0;
+}
+
+.progress-bar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: relative;
+}
+
+.progress-bar::before {
+content: '';
+position: absolute;
+top: 50%;
+left: 0;
+right: 0;
+height: 4px;
+background-color: #e0e0e0;
+z-index: -1;
+transform: translateY(-50%);
+}
+
+.step {
+display: flex;
+flex-direction: column;
+align-items: center;
+position: relative;
+z-index: 1;
+}
+
+.circle {
+width: 30px;
+height: 30px;
+border-radius: 50%;
+background-color: #e0e0e0;
+display: flex;
+justify-content: center;
+align-items: center;
+color: white;
+font-size: 18px;
+}
+
+.step.completed .circle {
+background-color: #4caf50;
+}
+
+.step.completed + .step::before {
+content: '';
+position: absolute;
+top: 50%;
+left: -50%;
+width: 100%;
+height: 4px;
+background-color: #4caf50;
+z-index: -1;
+transform: translateY(-50%);
+}
+
+.label {
+margin-top: 8px;
+font-size: 14px;
+text-align: center;
+}
+/* 
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 1rem;
+}
+
+th, td {
+text-align: left;
+padding: 0.5rem;
+border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+background-color: #f5f5f5;
+} */
+/* Table Styles */
+ /* Table Styles */
+ table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+        background-color: #1a2035;
+        border-radius: 8px;
+        overflow: hidden;
+        color: #e9ecef;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 12px 15px;
+        border-bottom: 1px solid #282e4a;
+        font-size: 18px;
+    }
+
+    th {
+        background-color: #903c9c;
+        color: #ffffff;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+    }
+
+    td {
+        background-color: #2d3548;
+    }
+
+    tr:hover td {
+        background-color: #414b63;
+    }
+
+
+.status {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.pending {
+    background-color: #ffc107;
+}
+
+.status.done {
+    background-color: #28a745;
+}
+
+.status.active {
+    background-color: #17a2b8;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    th {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 1rem;
+    }
+
+    td {
+        padding-left: 50%;
+        position: relative;
+        text-align: right;
+    }
+
+    td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        text-align: left;
+        font-weight: bold;
+        color: #495057;
+    }
+}
+
+.status {
+display: inline-block;
+padding: 0.25rem 0.5rem;
+border-radius: 4px;
+color: #fff;
+text-align: center;
+}
+
+.status.pending {
+background-color: #ffc107;
+}
+
+.status.done {
+background-color: #4caf50;
+}
+
+.status.active {
+background-color: #17a2b8;
+}
+
+.forward-section {
+    display: none;
+    margin-top: 1rem;
+}
+
+.forward-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.forward-section label {
+    font-weight: bold;
+}
+
+.forward-section select,
+.forward-section textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.forward-section button {
+    align-self: flex-start;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(grey, black);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.forward-section button:hover {
+    background-color: grey;
+}
+
+</style>
+<script>
+    function toggleForwardSection(id) {
+        var element = document.getElementById(id);
+        if (element.style.display === "none" || element.style.display === "") {
+            element.style.display = "block";
+        } else {
+            element.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>
